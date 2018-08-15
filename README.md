@@ -12,7 +12,7 @@ Pagiantor is a basic class for PHP which enables easy pagination of data retriev
 
 ## Usage
 
-Note, it is advisable to have a working knowledge of PDOs and PDOStatements before using this class. For more information on these objects please consult the [PHP manual](http://php.net/manual/en/book.pdo.php). To explain the usage we will run through an example where we wish to paginate data from a table called `articles` which has columns `id`, `title` and `author`. Throughout this example we will assume that `$pdo` is a valid PDO object connected to the database containing this table.
+Note, it is advisable to have a working knowledge of PDOs and PDOStatements before using this class. For more information on these objects please consult the [PHP manual](http://php.net/manual/en/book.pdo.php). To explain the usage we will run through an example, wherein we wish to paginate data from a table called `articles` which has columns `id`, `title` and `author`. Throughout this example we will assume that `$pdo` is a valid PDO object connected to the database containing this table.
 
 ### Setup a new Paginator
 Before we can use the class we need to include the class file. Download the class file, place it somewhere in the file structure of your project and include it at the top of the PHP file upon which you wish to display the paginated data. 
