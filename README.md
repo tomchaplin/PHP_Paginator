@@ -62,6 +62,11 @@ The Paginator now has all the data from its query stored in a PDOStatement objec
 
 ```html
 <table>
+  <tr>
+    <th>ID</th>
+    <th>Title</th>
+    <th>Author</th>
+  </tr>
   <?php while ($row = $paginator->fetchNextRow()): ?>
     <tr>
       <td><?= $row['id'] ?></td>
