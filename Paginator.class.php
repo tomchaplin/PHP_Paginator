@@ -11,8 +11,9 @@ class Paginator {
     private $limit;
     private $stmt;
 
-    // Provide the PDO object with connection to the database
+    // Provide the PDO object
     // Provide the query with placeholders
+    // Provide the total number of items from the query
     // Provide the callback function which accepts a PDOStatement and binds values to it
     public function __construct($pdo, $query, $total_items, $value_bind_func = null) {
         $this->pdo = $pdo;
@@ -55,7 +56,7 @@ class Paginator {
     }
 
     // Returns $num_links pagination links as squential 'li' elements
-    // Each element's content is the page number to which it $num_links
+    // Each element's content is the page number to which it links
     // Each element's class is "$li_class"
     // The current page recieves the class "$li_class $current_page_class"
     public function getPagination($num_links = 5, $li_class = "", $current_page_class = "") {
@@ -65,12 +66,12 @@ class Paginator {
         $links_before = floor(($num_links - 1)/2);
         $links_after  = floor($num_links / 2);
         $total_pages = ceil($this->total_items / $this->limit);
-        // Try and go down by links before, else go to link 1 and add to links $links_after
+        // Try and go down by $links_before, else go to link 1 and add to links after
         if ($this->page - $links_before < 1) {
             $links_before = $this->page - 1;
             $links_after = $num_links - $this->page;
         }
-        // Try and go up by links after, else go to link (total_items) and add to links after
+        // Try and go up by $links_after, else go to the last link and add to links before
         if ($this->page + $links_after > $total_pages) {
             $links_after = $total_pages - $this->page;
             $links_before = $num_links - $links_after - 1;
