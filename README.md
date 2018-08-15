@@ -58,6 +58,20 @@ To update the page we must tell the paginator which page we are on and how many 
 ```
 
 ### Retreive rows
+The Paginator now has all the data from its query stored in a PDOStatement object. To retrieve this data we can call `$paginator->fetchNextRow($fetch_style)`. Iternally this just calls `fetch($fetch_style)` on the PDOStatement so you can yuse any of the (usual fetch styles)[http://php.net/manual/en/pdostatement.fetch.php]. By default, we use `PDO::FETCH_ASSOC`. It is recommended you now use a `while` loop to process each row in turn.
+
+```html
+<table>
+  <?php while ($row = $paginator->fetchNextRow()): ?>
+    <tr>
+      <td><?= $row['id'] ?></td>
+      <td><?= $row['title'] ?></td>
+      <td><?= $row['author'] ?></td>
+    </tr>
+  <?php endwhile; ?>
+</table>
+```
+
 ### Setup navigation
 ### Setup 'results per page' buttons
 
