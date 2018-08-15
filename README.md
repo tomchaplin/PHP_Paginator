@@ -13,6 +13,7 @@ PHP_Pagiantor is a basic class for PHP which enables easy pagination of data ret
 ## Usage
 
 ## To-do
+* Automatically detect total number of rows from base query
 * Add support for more databases
 * Add exceptions
 * Better string handling
