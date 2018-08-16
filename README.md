@@ -121,7 +121,7 @@ Here is an example of what sort of pagination can be achieved with this approach
 * Add exceptions
 * Better string handling
 * Add custom pagination format
-* Do better checks for null limits
+* Do better checks in all methods
 
 ## References
 * https://code.tutsplus.com/tutorials/how-to-paginate-data-with-php--net-2928
