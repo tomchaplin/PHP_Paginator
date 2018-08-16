@@ -51,11 +51,13 @@ To update the page we must tell the paginator which page we are on and how many 
 
 ```php
   // We default to page 1, displaying 5 results
-  $page = (empty($_GET['page'])) ? 1 : $_GET['page'];
-  $limit = (empty($_GET['limit'])) ? 5 : $_GET['limit'];
+  $_GET['page'] = (empty($_GET['page'])) ? 1 : $_GET['page'];
+  $_GET['limit'] = (empty($_GET['limit'])) ? 5 : $_GET['limit'];
   // Now we update these values in the Paginator
-  $paginator->updatePage($page,$limit);
+  $paginator->updatePage($_GET['page'],$_GET['limit']);
 ```
+
+Note, if you do not provide these arguments to `updatePage()`, the Paginator will default the first argument to page `1` and the second argument to `total_rows` and will display all results on page 1. The Paginator will then execute your callback function to bind the relavent paramaters, it will bind its own paramaters and then execute the query. The method will return a boolean of `TRUE` on success and `FALSE` on failure.
 
 ### Retreive rows
 The Paginator now has all the data from its query stored in a PDOStatement object. To retrieve this data we can call `$paginator->fetchNextRow($fetch_style)`. Iternally this just calls `fetch($fetch_style)` on the PDOStatement, so you can use any of the [usual fetch styles](http://php.net/manual/en/pdostatement.fetch.php). By default, we use `PDO::FETCH_ASSOC`. It is recommended you now use a `while` loop to process each row in turn.
@@ -78,6 +80,39 @@ The Paginator now has all the data from its query stored in a PDOStatement objec
 ```
 
 ### Setup navigation
+We would now like to have a set of links at the bottom of the page which allow us to navigate through the paginated content. Paginator seperates the numerical links and the relative links allowing for greater design flexibility. Let's a create a navigation bar which includes 5 numerical links, including the current page as well as a first, last, previous and next page button.
+
+```html
+<ul class = "pagination_list">
+  <li class="pagination_nav_arrow"><a href="?<?= $paginator->getFirstPageQuery()?>">&lt;&lt;</a></li>
+  <li class="pagination_nav_arrow"><a href="?<?= $paginator->getPrevPageQuery()?>">&lt;</li>
+  <li class="pagination_ellipses">...</li>
+  <?= $paginator->getPagination(5, 'pagination_link', 'current_page'); ?>
+  <li class="pagination_ellipses">...</li>
+  <li class="pagination_nav_arrow"><a href="?<?= $paginator->getNextPageQuery()?>">&gt;</li>
+  <li class="pagination_nav_arrow"><a href="?<?= $paginator->getLastPageQuery()?>">&gt;&gt;</a></li>
+</ul>
+```
+
+The `getPagination()` method will return 5 items of the form
+```html
+<li class='pagination_link'><a href='?page=i&limit=current_limit'> i </a></li>
+```
+where `i` is the page number being linked to and `current_limit` is the current number of posts per page. Moreover, the `li` item which correspondes to the current page will have `class='pagination_link current_page'`. This allows for great flexibility when designing your navigation bar.
+
+To get the relative navagation buttons we have used the following methods:
+
+* `getFirstPageQuery()`
+* `getLastPageQuery()`
+* `getPrevPageQuery()`
+* `getNextPageQuery()`
+
+Each of these will return a PHP query string (without the `?`). This string will copy all of the key, value pairs already present in `$_GET` but replace the value of `page` with the relavent integer. Please note, you must call `updatePage()` with the appropriate parameters prior to calling these methods.
+
+Here is an example of what sort of pagination can be achieved with this approach:
+
+<!-- Include GIF of example navigation here -->
+
 ### Setup 'results per page' buttons
 
 ## To-do
@@ -85,6 +120,8 @@ The Paginator now has all the data from its query stored in a PDOStatement objec
 * Add support for more databases
 * Add exceptions
 * Better string handling
+* Add custom pagination format
+* Do better checks for null limits
 
 ## References
 * https://code.tutsplus.com/tutorials/how-to-paginate-data-with-php--net-2928
