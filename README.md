@@ -114,6 +114,16 @@ Here is an example of what sort of pagination can be achieved with this approach
 <!-- Include GIF of example navigation here -->
 
 ### Setup 'results per page' buttons
+When displaying paginated results, it is often desirable to allow the user to change number of results on each page. The Paginator will 
+
+```html
+<ul class="horizontal_list">
+    <li>Results per page:</li>
+    <li class="limit_link"><a href="?<?= $paginator->getNewLimitQuery(5);?>">5</a></li>
+    <li class="limit_link"><a href="?<?= $paginator->getNewLimitQuery(10);?>">10</a></li>
+    <li class="limit_link"><a href="?<?= $paginator->getNewLimitQuery(15);?>">15</a></li>
+</ul>
+```
 
 ## To-do
 * Automatically detect total number of rows from base query
