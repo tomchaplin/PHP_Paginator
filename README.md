@@ -114,7 +114,7 @@ Here is an example of what sort of pagination can be achieved with this approach
 <!-- Include GIF of example navigation here -->
 
 ### Setup 'results per page' buttons
-When displaying paginated results, it is often desirable to allow the user to change number of results on each page. The Paginator will 
+When displaying paginated results, it is often desirable to allow the user to change number of results on each page. The Paginator enables this through the `getNewLimitQuery($newLimit)` method. The method accepts one argument which is the amount of results you wish to show and returns a PHP query (without the `?`). This query will change the `limit` and `page` parameters so that the result previously displayed at the top, is visible on the new page. All other parameters in the present query will remaind unchanged.
 
 ```html
 <ul class="horizontal_list">
