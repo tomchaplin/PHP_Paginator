@@ -114,14 +114,14 @@ Here is an example of what sort of pagination can be achieved with this approach
 <!-- Include GIF of example navigation here -->
 
 ### Setup 'results per page' buttons
-When displaying paginated results, it is often desirable to allow the user to change number of results on each page. The Paginator enables this through the `getNewLimitQuery($newLimit)` method. The method accepts one argument which is the amount of results you wish to show and returns a PHP query (without the `?`). This query will change the `limit` and `page` parameters so that the result previously displayed at the top, is visible on the new page. All other parameters in the present query will remaind unchanged.
+When displaying paginated results, it is often desirable to allow the user to change number of results on each page. The Paginator enables this through the `getNewLimitQuery($newLimit)` method. The method accepts one argument which is the amount of results you wish to show and returns a PHP query (without the `?`). This query will change the `limit` and `page` parameters so that the result previously displayed at the top, is visible on the new page. All other parameters in the present query will remaind unchanged. You can then link to these queries with an anchor tag however you desire.
 
 ```html
-<ul class="horizontal_list">
+<ulW>
     <li>Results per page:</li>
-    <li class="limit_link"><a href="?<?= $paginator->getNewLimitQuery(5);?>">5</a></li>
-    <li class="limit_link"><a href="?<?= $paginator->getNewLimitQuery(10);?>">10</a></li>
-    <li class="limit_link"><a href="?<?= $paginator->getNewLimitQuery(15);?>">15</a></li>
+    <li><a href="?<?= $paginator->getNewLimitQuery(5);?>">5</a></li>
+    <li><a href="?<?= $paginator->getNewLimitQuery(10);?>">10</a></li>
+    <li><a href="?<?= $paginator->getNewLimitQuery(15);?>">15</a></li>
 </ul>
 ```
 
