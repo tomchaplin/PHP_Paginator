@@ -14,14 +14,18 @@ class Paginator {
     // Provide the PDO object with connection to the database
     // Provide the query with placeholders
     // Provide the callback function which accepts a PDOStatement and binds values to it
-    public function __construct($pdo, $query, $total_items, $value_bind_func = null) {
+    public function __construct($pdo, $query, $value_bind_func = null) {
         $this->pdo = $pdo;
         $this->query  = $query;
         $this->value_bind_func = $value_bind_func;
 
-        // It would be nice if this was automated
-
-        $this->total_items = (int)$total_items;
+        $count_query = "SELECT COUNT(*) FROM (". $query . ") paginator_count_table";
+        $count_stmt = $this->pdo->prepare($count_query);
+        if(!empty($this->value_bind_func)) {
+            call_user_func($this->value_bind_func,$count_stmt);
+        }
+        $count_stmt->execute();
+        $this->total_items = $count_stmt->fetch(PDO::FETCH_ASSOC)['COUNT(*)'];
     }
 
     // Use prepared statement to get data for this page
