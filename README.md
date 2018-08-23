@@ -20,10 +20,9 @@ Before we can use the class we need to include the class file. Download the clas
 ```php
 include_once "path_to/Pagiantion.class.php";
 ```
-Next we will construct a new Paginator object. The constructor function requires 3 inputs:
+Next we will construct a new Paginator object. The constructor function requires 2 inputs:
 1. A PDO object which should be connected to your database,
-2. The query returning the data you wish to paginate,
-3. The total number of rows this query will return.
+2. The query returning the data you wish to paginate
 
 Optionally, the user may also provide a callback function. This function should accept a PDO object and should bind any parameters in your query.
 
@@ -35,16 +34,11 @@ function bind_my_params($stmt) {
   $stmt->bindValue(':author',$_GET['author']);
 }
 
-// Now we figure out how many rows to expect
-$count_query = "SELECT COUNT(*) FROM articles WHERE author LIKE :author";
-$count_stmt = $pdo->prepare($count_query);
-bind_my_params($count_stmt);
-$count_stmt->execute();
-$total_rows = $stmt->fetch()['COUNT(*)'];
-
 // Finally we set up our Paginator
-$paginator = new Paginator($pdo,$query,$total_rows,'bind_my_prams');
+$paginator = new Paginator($pdo,$query,'bind_my_prams');
 ```
+
+Please note the paginator can automatically detect how many results your query will return. To do this it creates a table with the alias `pagiantor_count_table` so you should avoid using this as an alias in your queries.
 
 ### Update the page
 To update the page we must tell the paginator which page we are on and how many results we are displaying per page. These values will be `$_GET['page']` and `$_GET['limit']` respectively. In case we have arrived on the page without these values specified in the query we must set some defaults.
@@ -126,7 +120,7 @@ When displaying paginated results, it is often desirable to allow the user to ch
 ```
 
 ## To-do
-* Automatically detect total number of rows from base query
+* ~~Automatically detect total number of rows from base query~~
 * Add support for more databases
 * Add exceptions
 * Better string handling
